@@ -3,9 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
+
+
 Route::get('/', [UserController::class, 'index']);
-
-
-Route::get('/api/docs', function () {
-    return view('swagger');
-});
+Route::post('/users', [UserController::class, 'store']); 

@@ -213,7 +213,7 @@
 
         <div class="user-form">
             <h2>Add New User</h2>
-           <form class="user-form" method="POST" enctype="multipart/form-data" action="{{ url('api/users') }}">
+<form class="user-form" method="POST" enctype="multipart/form-data" action="{{ url('/users') }}">
             @csrf
             <input type="text" name="name" placeholder="Name" required>
             <input type="email" name="email" placeholder="Email" required>
