@@ -2,19 +2,30 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        // Create 45 users using the factory
-        User::factory(45)->create();
+        // Clear existing users (optional)
+        User::truncate();
+
+        // Create 45 users
+        for ($i = 0; $i < 45; $i++) {
+            try {
+                // Generate a random unique email address
+                $email = 'user' . Str::random(5) . '@example.com';
+
+                User::factory()->create([
+                    'email' => $email,
+                ]);
+                echo "Created user " . ($i + 1) . " of 45\n";
+            } catch (\Exception $e) {
+                echo "Error creating user " . ($i + 1) . ": " . $e->getMessage() . "\n";
+            }
+        }
     }
 }

@@ -17,9 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'api.token' => VerifyApiToken::class,
         ]);
 
+        // Change throttle:api to a specific number
         $middleware->group('api', [
-            'throttle:api',
-            'api.token',
+            'throttle:60,1', // 60 requests per minute
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

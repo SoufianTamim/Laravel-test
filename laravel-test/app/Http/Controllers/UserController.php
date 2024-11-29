@@ -24,6 +24,42 @@ class UserController extends Controller
         return view('home', compact('users'));
     }
 
+
+public function show($id)
+{
+   try {
+       $user = User::findOrFail($id);
+       
+       // Prepare image path
+       $imagePath = $user->profile_image === 'default.jpg' 
+           ? asset('images/default.jpg') 
+           : asset('storage/' . $user->profile_image);
+
+       return response()->json([
+           'success' => true,
+           'user' => [
+               'id' => $user->id,
+               'name' => $user->name,
+               'email' => $user->email,
+               'phone' => $user->phone,
+               'profile_image' => $imagePath,
+               'created_at' => $user->created_at->format('Y-m-d H:i:s')
+           ]
+       ]);
+   } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+       return response()->json([
+           'success' => false,
+           'message' => 'User not found'
+       ], 404);
+   } catch (\Exception $e) {
+       return response()->json([
+           'success' => false,
+           'message' => 'Server error',
+           'error' => $e->getMessage()
+       ], 500);
+   }
+}
+
     public function store(Request $request)
     {
         try {
